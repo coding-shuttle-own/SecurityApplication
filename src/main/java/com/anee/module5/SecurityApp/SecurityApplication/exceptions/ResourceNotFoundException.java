@@ -1,0 +1,8 @@
+package com.anee.module5.SecurityApp.SecurityApplication.exceptions;
+
+public class ResourceNotFoundException extends RuntimeException{
+
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
+}
