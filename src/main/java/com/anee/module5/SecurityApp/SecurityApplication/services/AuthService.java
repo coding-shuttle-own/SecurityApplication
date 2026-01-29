@@ -1,6 +1,7 @@
 package com.anee.module5.SecurityApp.SecurityApplication.services;
 
 import com.anee.module5.SecurityApp.SecurityApplication.dto.LoginDto;
+import com.anee.module5.SecurityApp.SecurityApplication.dto.LoginResponseDto;
 import com.anee.module5.SecurityApp.SecurityApplication.dto.SignUpDto;
 import com.anee.module5.SecurityApp.SecurityApplication.dto.UserDto;
 import com.anee.module5.SecurityApp.SecurityApplication.entities.User;
@@ -25,6 +26,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final UserService userService;
 
     public UserDto signUp(SignUpDto signUpDto) {
 
@@ -43,12 +45,32 @@ public class AuthService {
 
     }
 
-    public String login(LoginDto loginDto) {
+    public LoginResponseDto login(LoginDto loginDto) {
+
+        // authenticate user credentials by authentication manager
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword())
         );
 
+        // get authenticated user details
         User user = (User) authentication.getPrincipal();
-        return jwtService.generateToken(user);
+
+        // generate jwt access and refresh tokens
+        String accessToken =  jwtService.generateAccessToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
+
+        return new LoginResponseDto(user.getId(), accessToken, refreshToken);
+    }
+
+    public LoginResponseDto refreshToken(String refreshToken) {
+
+        // validate refresh token and get user id from it
+        Long userId = jwtService.getUserIdFromToken(refreshToken);
+        User user = userService.getUserById(userId);
+
+        // generate new access token with the given refresh token
+        String accessToken = jwtService.generateAccessToken(user);
+
+        return new LoginResponseDto(user.getId(), accessToken, refreshToken);
     }
 }
