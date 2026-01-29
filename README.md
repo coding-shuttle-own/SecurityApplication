@@ -4,3 +4,7 @@
 2. Security Filter Chain Configuration: Configured HTTP security settings.
 3. JWT Token Creation and Verification.
 4. Authenticating Requests with JWT Tokens.
+
+# Spring Security Advanced
+
+1. JWT-Refresh Token and Access Token based Authentication.
