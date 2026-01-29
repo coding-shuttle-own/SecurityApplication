@@ -8,3 +8,4 @@
 # Spring Security Advanced
 
 1. JWT-Refresh Token and Access Token based Authentication.
+2. Google OAuth2 Client Authentication.

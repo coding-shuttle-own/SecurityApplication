@@ -1,6 +1,7 @@
 package com.anee.module5.SecurityApp.SecurityApplication.config;
 
 import com.anee.module5.SecurityApp.SecurityApplication.filters.JwtAuthFilter;
+import com.anee.module5.SecurityApp.SecurityApplication.handlers.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
+    private final OAuth2SuccessHandler successHandler;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -37,7 +39,10 @@ public class WebSecurityConfig {
                 .csrf(csrfConfig -> csrfConfig.disable()) // disabling CSRF for testing purpose
                 .sessionManagement(sessionConfig -> sessionConfig
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login(oauth2config -> oauth2config
+                        .failureUrl("/login?error=true")
+                        .successHandler(successHandler));
 //                .formLogin(Customizer.withDefaults()) ;// mandatory login form
 
         return httpSecurity.build();
