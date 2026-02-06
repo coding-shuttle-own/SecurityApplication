@@ -1,10 +1,13 @@
 package com.anee.module5.SecurityApp.SecurityApplication;
 
 import com.anee.module5.SecurityApp.SecurityApplication.entities.User;
+import com.anee.module5.SecurityApp.SecurityApplication.entities.enums.Role;
 import com.anee.module5.SecurityApp.SecurityApplication.services.JwtService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Set;
 
 @SpringBootTest
 class SecurityApplicationTests {
@@ -14,7 +17,7 @@ class SecurityApplicationTests {
 
 	@Test
 	void contextLoads() {
-        User user = new User(4L, "anee@gmail.com", "password123", "Anee");
+        User user = new User(4L, "anee@gmail.com", "password123", "Anee", Set.of(Role.ADMIN, Role.CREATOR, Role.USER));
 
         String token = jwtService.generateAccessToken(user);
         System.out.println("Generated Token: " + token);
