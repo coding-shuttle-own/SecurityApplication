@@ -10,3 +10,4 @@
 1. JWT-Refresh Token and Access Token based Authentication.
 2. Google OAuth2 Client Authentication.
 3. User Session Management with JWT.
+4. Role Based Authorization in Spring Security.
