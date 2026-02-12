@@ -11,3 +11,5 @@
 2. Google OAuth2 Client Authentication.
 3. User Session Management with JWT.
 4. Role Based Authorization in Spring Security.
+5. Granular Authorization with Authorities and Permissions.
+6. Security Methods Annotations: @PreAuthorize and @Secured.
